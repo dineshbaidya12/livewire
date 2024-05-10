@@ -1,0 +1,171 @@
+-- Adminer 4.8.0 MySQL 8.0.27 dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `attendences`;
+CREATE TABLE `attendences` (
+  `id` int NOT NULL,
+  `event_id` bigint NOT NULL,
+  `event_date_id` bigint NOT NULL,
+  `user_id` bigint NOT NULL,
+  `attended` text NOT NULL,
+  `group_id` bigint NOT NULL,
+  `remark` text NOT NULL,
+  `coming_from` text NOT NULL,
+  `updated_at` timestamp NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` bigint unsigned NOT NULL,
+  `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `user_id` bigint unsigned NOT NULL DEFAULT '34',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `comments_post_id_foreign` (`post_id`),
+  KEY `comments_user_id_foreign` (`user_id`),
+  CONSTRAINT `comments_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE `failed_jobs` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `notifications`;
+CREATE TABLE `notifications` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `subject` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `password_reset_tokens`;
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE `posts` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `file` text COLLATE utf8mb4_unicode_ci,
+  `caption` text COLLATE utf8mb4_unicode_ci,
+  `date` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `posts` (`id`, `file`, `caption`, `date`, `created_at`, `updated_at`) VALUES
+(130,	'',	'New post 12',	'2024-05-10 07:37:11',	'2024-05-10 02:07:11',	'2024-05-10 02:07:11'),
+(133,	'',	'asdasdsad',	'2024-05-10 07:42:12',	'2024-05-10 02:12:12',	'2024-05-10 02:12:12'),
+(134,	'',	'Test post',	'2024-05-10 07:58:00',	'2024-05-10 02:28:00',	'2024-05-10 02:28:00'),
+(135,	'',	'New Post',	'2024-05-10 08:36:24',	'2024-05-10 03:06:24',	'2024-05-10 03:06:24'),
+(136,	'',	'\n\nNotifications(11)\n\nDashboard\nAdd New Student\nStudent Class\nRandom Form Submissions\nRandom Form\nAttendence - Livewire\nAttendence - Blade Only\nPosts\nCreate a new Post\nAll Posts (4)\nPOST - 135\n\nNew Post\n\nAll Comments(1)\n\n    Autogenerated comment for Post 135 \n\nPOST - 134\n\nTest post\n\nAll Comments(6)\n\n    Autogenerated comment for Post 134 \n\nManual Comment jj test Testing web testing web\n\nPOST - 133\n\nasdasdsad\n\nAll Comments(3)\n\n    Autogenerated comment for Post 133 \n\nTesting Comment test\n\nPOST - 130\n\nNew post 12\n\nAll Comments(7)\n\n    Autogenerated comment for Post 130 \n\nnew pos 12 comment hello hey Testing comment t comment Test\n\n',	'2024-05-10 08:44:55',	'2024-05-10 03:14:55',	'2024-05-10 03:14:55'),
+(137,	'',	'asd',	'2024-05-10 08:48:34',	'2024-05-10 03:18:34',	'2024-05-10 03:18:34'),
+(138,	'Anonymous_663ddfb53b68810-05-24_0808-0505-4949.webp',	'New Avatar...',	'2024-05-10 08:49:57',	'2024-05-10 03:19:57',	'2024-05-10 03:19:57');
+
+DROP TABLE IF EXISTS `random_forms`;
+CREATE TABLE `random_forms` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `text` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `numberInput` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `select` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checkbox1` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checkbox2` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `radio` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `file` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `student_classes`;
+CREATE TABLE `student_classes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `student_id` bigint unsigned NOT NULL,
+  `class` bigint unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  CONSTRAINT `student_classes_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- 2024-05-10 09:11:23
